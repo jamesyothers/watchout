@@ -142,7 +142,7 @@ var enemies = enemyGroup.selectAll('circle').data(d3.range(1, 30)).enter()
   .style('fill', 'red');
 
 var timerFunc = function() {
-  enemies.attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
+  enemies.transition().duration(1000).attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
   .attr('cy', function() { return Math.random() * (gameOptions.height - 50);});
 };
 
