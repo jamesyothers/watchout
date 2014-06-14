@@ -135,12 +135,18 @@ players.push(new Player(gameOptions).render(gameBoard));
 //d3.selectAll('g').data([1,2,3,4,5]).enter().append('g').text('a').style('color', 'red');
 var enemyGroup = gameBoard.append('g');
 var enemies = enemyGroup.selectAll('circle').data(d3.range(1, 30)).enter()
-  .append('circle').attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
+  .append('circle')
+  .attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
   .attr('cy', function() { return Math.random() * (gameOptions.height - 50);})
   .attr('r', 10)
   .style('fill', 'red');
 
-
-var createEnemies = function() {
-
+var timerFunc = function() {
+  enemies.attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
+  .attr('cy', function() { return Math.random() * (gameOptions.height - 50);});
 };
+
+//d3.timer
+setInterval(timerFunc, 1000);
+
+
