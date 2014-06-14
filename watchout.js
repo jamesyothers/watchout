@@ -150,15 +150,22 @@ var timerFunc = function() {
 setInterval(timerFunc, 1000);
 var counter = 0;
 var collisionFunc = function(){
-  // console.log(players[0].getX());
+
   // console.log(players[0].getY());
   // for each circle within enemies console log cx & cy
   enemies.each(function(){
-    console.log(d3.select(this).attr('cx');
-    counter++;
-    console.log(counter);
-    //return enemy.attr('cx');
+    var enemyX = d3.select(this).attr('cx');
+    var enemyY = d3.select(this).attr('cy');
+    var playerX = players[0].getX();
+    var playerY = players[0].getY();
+    if (Math.abs(playerX - enemyX) < 10 && Math.abs(playerY - playerY) < 10) {
+    alert ("COLLISION");
+    }
   });
+
+
+
+  //
   // if(this.getX() === && this.getY()) {
   //   alert('collision');
   // }
