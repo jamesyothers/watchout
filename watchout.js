@@ -158,8 +158,9 @@ var collisionFunc = function(){
     var enemyY = d3.select(this).attr('cy');
     var playerX = players[0].getX();
     var playerY = players[0].getY();
-    if (Math.abs(playerX - enemyX) < 10 && Math.abs(playerY - playerY) < 10) {
-    alert ("COLLISION");
+    if (Math.abs(playerX - enemyX) < 10 && Math.abs(playerY - enemyY) < 10) {
+      gameStats.score = 0;
+      updateScore();
     }
   });
 
@@ -172,5 +173,18 @@ var collisionFunc = function(){
 };
 
 //collisionFunc();
-setInterval(collisionFunc, 1000);
+setInterval(collisionFunc, 100);
+
+var scoreUpdater = function() {
+  gameStats.score += 100;
+  updateScore();
+  if (gameStats.score > gameStats.bestScore) {
+    gameStats.bestScore = gameStats.score;
+  }
+  updateBestScore();
+};
+
+setInterval(scoreUpdater, 1000);
+
+
 
