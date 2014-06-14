@@ -161,6 +161,8 @@ var collisionFunc = function(){
     if (Math.abs(playerX - enemyX) < 10 && Math.abs(playerY - enemyY) < 10) {
       gameStats.score = 0;
       updateScore();
+      gameStats.collisions++;
+      d3.select('.collisions span').text(gameStats.collisions.toString());
     }
   });
 
@@ -173,7 +175,7 @@ var collisionFunc = function(){
 };
 
 //collisionFunc();
-setInterval(collisionFunc, 100);
+d3.timer(collisionFunc);
 
 var scoreUpdater = function() {
   gameStats.score += 100;
@@ -185,6 +187,4 @@ var scoreUpdater = function() {
 };
 
 setInterval(scoreUpdater, 1000);
-
-
 
