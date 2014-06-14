@@ -148,5 +148,22 @@ var timerFunc = function() {
 
 //d3.timer
 setInterval(timerFunc, 1000);
+var counter = 0;
+var collisionFunc = function(){
+  // console.log(players[0].getX());
+  // console.log(players[0].getY());
+  // for each circle within enemies console log cx & cy
+  enemies.each(function(){
+    console.log(d3.select(this).attr('cx');
+    counter++;
+    console.log(counter);
+    //return enemy.attr('cx');
+  });
+  // if(this.getX() === && this.getY()) {
+  //   alert('collision');
+  // }
+};
 
+//collisionFunc();
+setInterval(collisionFunc, 1000);
 
