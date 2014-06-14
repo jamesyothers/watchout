@@ -12,7 +12,7 @@ var gameOptions = {
 var gameStats = {
   score: 0,
   bestScore: 0,
-  collisions: 0
+  collisions: 0  //?
 };
 
 //map axes
@@ -25,15 +25,18 @@ var axes = {
 
 //generate gameboard
 var gameBoard = d3.select('.container').append('svg:svg').attr('width', gameOptions.width).attr('height',gameOptions.height);
-console.log(gameBoard);
+//console.log(gameBoard);
 
 //update scoreboard
-d3.select('.current span').text(gameStats.score.toString());
+var updateScore = function(){
+  return d3.select('.current span').text(gameStats.score.toString());
+};
 
 //update best score if current score is higher
-gameStats.bestScore = Math.max(gameStats.score, gameStats.bestScore);
-d3.select('.high span').text(gameStats.bestScore.toString());
-
+var updateBestScore = function(){
+  gameStats.bestScore = Math.max(gameStats.score, gameStats.bestScore);
+  return d3.select('.high span').text(gameStats.bestScore.toString());
+};
 //player
 
   //player gets hit
@@ -75,7 +78,7 @@ Player.prototype.setX = function(x) {
   if (x >= maxX) {
     x = maxX;
   }
-  this.x = x;
+  return this.x = x;
 };
 
 Player.prototype.getY = function() {
@@ -84,14 +87,14 @@ Player.prototype.getY = function() {
 
 Player.prototype.setY = function(y) {
   var minY = this.gameOptions.padding;
-  var maxY = this.gameOptions.width - this.gameOptions.padding;
+  var maxY = this.gameOptions.height - this.gameOptions.padding;
   if (y <= minY) {
     y = minY;
   }
   if (y >= maxY) {
     y = maxY;
   }
-  this.y = y;
+  return this.y = y;
 };
 
 Player.prototype.transform = function(opts){
@@ -102,10 +105,42 @@ Player.prototype.transform = function(opts){
 };
 
 Player.prototype.moveAbsolute = function(x,y) {
-  return this.transform({x:x, y:y});
+  return this.transform({
+    x:x,
+    y:y});
 };
 
+Player.prototype.moveRelative = function(dx,dy) {
+  return this.transform({
+    x: this.getX() + dx,
+    y: this.getY() + dy,
+    angle: 360 * (Math.atan2(dy,dx)/(Math.PI*2))
+  });
+};
+
+Player.prototype.setupDragging = function(){
+  var that = this;
+  var dragMove = function(){
+    return that.moveRelative(d3.event.dx, d3.event.dy);
+  };
+  var drag = d3.behavior.drag().on('drag',dragMove);
+  return this.el.call(drag);
+};
+
+var players = [];
+players.push(new Player(gameOptions).render(gameBoard));
+//players.push(new Player(gameOptions).render(gameBoard));
 
 //enemy
+//d3.selectAll('g').data([1,2,3,4,5]).enter().append('g').text('a').style('color', 'red');
+var enemyGroup = gameBoard.append('g');
+var enemies = enemyGroup.selectAll('circle').data(d3.range(1, 30)).enter()
+  .append('circle').attr('cx', function() { return Math.random() * (gameOptions.width - 50);})
+  .attr('cy', function() { return Math.random() * (gameOptions.height - 50);})
+  .attr('r', 10)
+  .style('fill', 'red');
 
-var enemies = 30;
+
+var createEnemies = function() {
+
+};
